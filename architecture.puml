@@ -28,8 +28,23 @@ class PositioningUnit {
 }
 
 
+class CalibrationStation {
+    + get_location() : Vector2D
+}
+
+class Wafer {
+    + get_shot_position(mark_x: int, mark_y: int) : Vector2D
+    + get_mark_position(mark_x: int, mark_y: int) : Vector2D
+    + rotate_point(point: Vector2D, angle_degrees: float) : Vector2D
+    + wafer_cs_to_pu_cs(point_wafer_cs: Vector2D) : Vector2D
+}
+
+
 MeasuringDevice ..> Vector2D : uses
 PositioningUnit ..> Vector2D : uses
 PositioningUnit --o MeasuringDevice : contains
+
+CalibrationStation ..> Vector2D : uses
+Wafer ..> Vector2D : uses
 
 @enduml
