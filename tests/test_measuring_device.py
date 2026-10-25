@@ -24,6 +24,13 @@ class TestMeasuringDevice(unittest.TestCase):
         self.assertEqual(actual.x_um, 1102.0)
         self.assertEqual(actual.y_um, 2006.0)
 
+    def test_calibration_measurement_returns_offset_within_range(self):
+        device = MeasuringDevice()
+        for _ in range(10):
+            offset = device.calibration_measurement()
+            self.assertTrue(-10.0 <= offset.x_um <= 10.0)
+            self.assertTrue(-10.0 <= offset.y_um <= 10.0)
+
     @patch("src.measuring_device.random.uniform", side_effect=[25.0, -25.0, 50.0, -50.0])
     def test_measure_methods_apply_random_offsets_within_configured_ranges(self, _):
         device = MeasuringDevice()

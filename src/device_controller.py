@@ -17,7 +17,7 @@ class DeviceController:
         self.calibration_station = calibration_station
         self.calibration_offset = None
 
-    def perform_calibration(self) -> None:
+    def perform_calibration(self) -> Vector2D:
         """
         Part 2, Step 1: Perform calibration measurement.
         
@@ -27,10 +27,13 @@ class DeviceController:
 
         # 1. Move PU to the calibration station
         calibration_position = self.calibration_station.get_location()
-        self.positioning_unit.move_to(calibration_position)
+        self.positioning_unit.move_pu(calibration_position.x_um, calibration_position.y_um)
 
         # 2. Perform calibration measurement (Returns a random offset vector)
-        self.calibration_offset = self.positioning_unit.measuring_device.measure_mark()
+        self.calibration_offset = self.positioning_unit.measuring_device.calibration_measurement()
 
         # 3. Set the calibration offset for future measurements
-        self.positioning_unit.set_calibration_offset(self.calibration_offset)
+        self.positioning_unit.measuring_device.set_calibration_offset(self.calibration_offset)
+
+        # 4. Return the calibration offset for reference
+        return self.calibration_offset

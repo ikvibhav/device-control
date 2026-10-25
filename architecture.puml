@@ -21,6 +21,7 @@ class MeasuringDevice {
     + set_calibration_offset(offset: Vector2D) : void
     + get_calibration_offset() : Vector2D
     + get_actual_position() : Vector2D
+    + calibration_measurement() : Vector2D
     + measure_2d() : Vector2D
     + measure_mark() : Vector2D
 }

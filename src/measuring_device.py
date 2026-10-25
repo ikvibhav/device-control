@@ -1,6 +1,6 @@
 import random
 from src.vector import Vector2D
-from src.utils import MARK_MEASUREMENT_OFFSET, TWOD_MEASUREMENT_OFFSET
+from src.utils import MARK_MEASUREMENT_OFFSET, TWOD_MEASUREMENT_OFFSET, CALIBRATION_MEASUREMENT_OFFSET
 
 class MeasuringDevice:
     """MeasuringDevice represents performing 2D measurements and mark measurements."""
@@ -31,6 +31,11 @@ class MeasuringDevice:
         Get the actual position of the measuring device based on the PU centre.
         """
         return pu_centre + self.NOMINAL_OFFSET + self.calibration_offset
+
+    def calibration_measurement(self) -> Vector2D:
+        offset_x = random.uniform(-CALIBRATION_MEASUREMENT_OFFSET, CALIBRATION_MEASUREMENT_OFFSET)
+        offset_y = random.uniform(-CALIBRATION_MEASUREMENT_OFFSET, CALIBRATION_MEASUREMENT_OFFSET)
+        return Vector2D(offset_x, offset_y)
 
     def measure_2d(self) -> Vector2D:
         """
