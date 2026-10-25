@@ -5,11 +5,31 @@ title Wafer Measurement using Position Unit Module
 class Vector2D {
   + x_um: float
   + y_um: float
-  + __init__(x_um: float, y_um: float)
   + __add__(other: Vector2D) : Vector2D
   + __sub__(other: Vector2D) : Vector2D
   + magnitude() : float
   + angle_degrees() : float
   + __repr__() : str
 }
+
+class MeasuringDevice {
+    - nominal_offset: Vector2D
+    + set_calibration_offset(offset: Vector2D) : void
+    + get_calibration_offset() : Vector2D
+    + get_actual_position() : Vector2D
+    + measure_2d() : Vector2D
+    + measure_mark() : Vector2D
+}
+
+class PositioningUnit {
+    + move_pu(target_x_um: float, target_y_um: float) : void
+    + get_pu_position() : Vector2D
+    + get_md_position() : Vector2D
+}
+
+
+MeasuringDevice ..> Vector2D : uses
+PositioningUnit ..> Vector2D : uses
+PositioningUnit --o MeasuringDevice : contains
+
 @enduml
