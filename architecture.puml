@@ -1,6 +1,9 @@
 @startuml nfi_device_control
 
-title Wafer Measurement using Position Unit Module
+title Wafer Measurement using Measuring Device and Positioning Unit
+
+skinparam linetype ortho
+
 
 class Vector2D {
   + x_um: float
@@ -12,6 +15,7 @@ class Vector2D {
   + __repr__() : str
 }
 
+
 class MeasuringDevice {
     - nominal_offset: Vector2D
     + set_calibration_offset(offset: Vector2D) : void
@@ -21,16 +25,13 @@ class MeasuringDevice {
     + measure_mark() : Vector2D
 }
 
+
 class PositioningUnit {
     + move_pu(target_x_um: float, target_y_um: float) : void
     + get_pu_position() : Vector2D
     + get_md_position() : Vector2D
 }
 
-
-class CalibrationStation {
-    + get_location() : Vector2D
-}
 
 class Wafer {
     + get_shot_position(mark_x: int, mark_y: int) : Vector2D
@@ -40,11 +41,29 @@ class Wafer {
 }
 
 
+class CalibrationStation {
+    + get_location() : Vector2D
+}
+
+
+class DeviceController {
+    + perform_calibration() : void
+    + determine_wafer_position_rotation(): void
+    + measure_center_mark() : Vector2D
+    + measure_offset_mark() : Vector2D
+}
+
+
 MeasuringDevice ..> Vector2D : uses
 PositioningUnit ..> Vector2D : uses
 PositioningUnit --o MeasuringDevice : contains
 
 CalibrationStation ..> Vector2D : uses
 Wafer ..> Vector2D : uses
+
+
+DeviceController --> PositioningUnit : uses
+DeviceController --> Wafer : uses
+DeviceController ..> CalibrationStation : uses
 
 @enduml
