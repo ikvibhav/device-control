@@ -1,0 +1,15 @@
+@startuml nfi_device_control
+
+title Wafer Measurement using Position Unit Module
+
+class Vector2D {
+  + x_um: float
+  + y_um: float
+  + __init__(x_um: float, y_um: float)
+  + __add__(other: Vector2D) : Vector2D
+  + __sub__(other: Vector2D) : Vector2D
+  + magnitude() : float
+  + angle_degrees() : float
+  + __repr__() : str
+}
+@enduml
