@@ -14,3 +14,8 @@ if __name__ == "__main__":
     # Part 2, Step 1: Perform calibration
     calibration_offset = controller.perform_calibration()
     print(f"Calibration Offset: {calibration_offset}")
+
+    # Part 2, Step 2: Get wafer position and rotation
+    rotation, centre_pu_cs = controller.get_wafer_position_and_rotation()
+    print(f"Wafer Rotation: {rotation}")
+    print(f"Wafer Centre PU_CS: {centre_pu_cs}")
