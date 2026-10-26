@@ -52,8 +52,13 @@ class DeviceController:
         offset = self.positioning_unit.measuring_device.measure_mark()
         return expected_pu_cs + offset
 
+    def wafer_to_pu_cs(self, point_wafer_cs: Vector2D) -> Vector2D:
+        """Map a WAFER_CS point to PU_CS using the controller's estimates."""
+        rotated = self.wafer.rotate_point(point_wafer_cs, self.estimated_rotation_deg)
+        return self.estimated_center_pu_cs + rotated
+
     # ------------------------------------------------------------------
-    # Working with wafer marks
+    # Executions
     # ------------------------------------------------------------------
 
     def perform_calibration(self) -> Vector2D:
@@ -76,7 +81,6 @@ class DeviceController:
 
         # 4. Return the calibration offset for reference
         return self.calibration_offset
-
 
     def get_wafer_position_and_rotation(self) -> tuple[float, Vector2D]:
         """
@@ -109,4 +113,25 @@ class DeviceController:
         self.estimated_rotation_deg = math.degrees(rotation)
         self.estimated_center_pu_cs = centre_pu_cs
 
-        return rotation, centre_pu_cs        
+        return rotation, centre_pu_cs
+
+    def measure_center_mark(self) -> Vector2D:
+        """
+        Part 2, Step 3:
+        1. Move MD to middle of centre mark on the wafer
+        2. Perform the 2D measurement using the measuring device.
+        """
+        target_pu_cs = self.wafer_to_pu_cs(self._mark_wafer_cs(0, 0))
+        self.move_md_to(target_pu_cs)
+        return self.positioning_unit.measuring_device.measure_2d()
+
+    def measure_offset_mark(self) -> Vector2D:
+        """
+        Part 2, Step 4:
+        1. Move MD to the offset mark on the wafer (2 shots up, 1 shot right)
+        2. Perform the 2D measurement using the measuring device.
+        """
+        target_pu_cs = self.wafer_to_pu_cs(self._mark_wafer_cs(1, 2))
+        self.move_md_to(target_pu_cs)
+        return self.positioning_unit.measuring_device.measure_2d()
+        
