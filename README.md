@@ -1,7 +1,7 @@
-# NFI Device Control Assignment
+# NFI Device Control
 
 ## Overview
-This solution implements a device control system for Nearfield Instruments metrology platform. Using a Positioning Unit (PU) with an integrated Measuring 
+This solution implements a metrology device control system. Using a Positioning Unit (PU) with an integrated Measuring 
 Device (MD). The system performs -
 1. Calibration
 2. Wafer positioning
